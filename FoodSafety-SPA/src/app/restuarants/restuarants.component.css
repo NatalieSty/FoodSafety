@@ -1,0 +1,39 @@
+/* .body {
+    padding-top: 10%; 
+  } */
+
+
+  .row {
+    display: flex; /* equal height of the children */
+    height: 95vh;
+  }
+  
+  .col {
+    flex: 1; /* additionally, equal width */
+    height: 100%;
+    padding: 1em;
+    border: solid;
+   
+  }
+
+  #restuarant-list {
+    margin-top: -15px;
+    height: 80%;
+    overflow-y: auto;
+    overflow: scroll;
+
+  }
+
+  .search-group {
+    display: block;
+    
+  }
+
+  #map{
+    height: 100%;
+    width: 100%;
+  }
+
+
+
+ 
