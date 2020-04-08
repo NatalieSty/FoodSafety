@@ -11,5 +11,7 @@ namespace FoodSafety.API.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Restuarant> Restuarants { get; set; }
+        public DbSet<Violation> Violations { get; set; }
+        public DbSet<Inspection> Inspections { get; set; }
     }
 }

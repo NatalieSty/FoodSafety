@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodSafety.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200403222717_AddedRestuarantEntity")]
-    partial class AddedRestuarantEntity
+    [Migration("20200408035749_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,6 @@ namespace FoodSafety.API.Migrations
             modelBuilder.Entity("FoodSafety.API.Models.Inspection", b =>
                 {
                     b.Property<string>("InspectionSerialNum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BusinessID")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Grade")
@@ -54,7 +51,7 @@ namespace FoodSafety.API.Migrations
 
                     b.HasIndex("RestuarantBusinessID");
 
-                    b.ToTable("Inspection");
+                    b.ToTable("Inspections");
                 });
 
             modelBuilder.Entity("FoodSafety.API.Models.Restuarant", b =>
@@ -71,11 +68,14 @@ namespace FoodSafety.API.Migrations
                     b.Property<string>("Desciption")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("Latitude")
+                    b.Property<int>("Grade")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("Longtitude")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Longtitude")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -119,10 +119,10 @@ namespace FoodSafety.API.Migrations
                     b.Property<string>("ViolationRecordId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("BusinessID")
+                    b.Property<string>("InspectionSerialNum")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RestuarantBusinessID")
+                    b.Property<string>("InspectionSerialNum1")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ViolationDescription")
@@ -136,23 +136,23 @@ namespace FoodSafety.API.Migrations
 
                     b.HasKey("ViolationRecordId");
 
-                    b.HasIndex("RestuarantBusinessID");
+                    b.HasIndex("InspectionSerialNum1");
 
-                    b.ToTable("Violation");
+                    b.ToTable("Violations");
                 });
 
             modelBuilder.Entity("FoodSafety.API.Models.Inspection", b =>
                 {
-                    b.HasOne("FoodSafety.API.Models.Restuarant", null)
+                    b.HasOne("FoodSafety.API.Models.Restuarant", "Restuarant")
                         .WithMany("Inspections")
                         .HasForeignKey("RestuarantBusinessID");
                 });
 
             modelBuilder.Entity("FoodSafety.API.Models.Violation", b =>
                 {
-                    b.HasOne("FoodSafety.API.Models.Restuarant", null)
+                    b.HasOne("FoodSafety.API.Models.Inspection", "Inspection")
                         .WithMany("Violations")
-                        .HasForeignKey("RestuarantBusinessID");
+                        .HasForeignKey("InspectionSerialNum1");
                 });
 #pragma warning restore 612, 618
         }

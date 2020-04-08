@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FoodSafety.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodSafety.API.Data
 {
@@ -22,9 +23,14 @@ namespace FoodSafety.API.Data
             _context.Remove(entity);
         }
 
-        public Task<IEnumerable<Restuarant>> GetRestuarantsAsync()
+        public async Task<IEnumerable<Restuarant>> GetRestuarantsAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.Restuarants.Include(i => i.Inspections).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Inspection>> GetInspectionsAsync()
+        {
+            return await _context.Inspections.Include(i => i.Violations).Include(i => i.Restuarant).ToListAsync();
         }
 
         public async Task<bool> SaveAll()
@@ -32,6 +38,9 @@ namespace FoodSafety.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-       
+        public async Task<IEnumerable<Violation>> GetViolationsAsync()
+        {
+            return await _context.Violations.Include(i => i.Inspection).ToListAsync();
+        }
     }
 }

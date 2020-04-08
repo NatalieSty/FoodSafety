@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodSafety.API.Migrations
 {
-    public partial class AddedRestuarantEntity : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,8 +20,8 @@ namespace FoodSafety.API.Migrations
                     ZipCode = table.Column<int>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     Longtitude = table.Column<double>(nullable: false),
-                    Grade = table.Column<int>(nullable: false),
-                    Latitude = table.Column<double>(nullable: false)
+                    Latitude = table.Column<double>(nullable: false),
+                    Grade = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,11 +44,10 @@ namespace FoodSafety.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inspection",
+                name: "Inspections",
                 columns: table => new
                 {
                     InspectionSerialNum = table.Column<string>(nullable: false),
-                    BusinessID = table.Column<string>(nullable: true),
                     InspectionDate = table.Column<DateTime>(nullable: false),
                     InspectionBusinessName = table.Column<string>(nullable: true),
                     InspectionType = table.Column<int>(nullable: false),
@@ -60,9 +59,9 @@ namespace FoodSafety.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inspection", x => x.InspectionSerialNum);
+                    table.PrimaryKey("PK_Inspections", x => x.InspectionSerialNum);
                     table.ForeignKey(
-                        name: "FK_Inspection_Restuarants_RestuarantBusinessID",
+                        name: "FK_Inspections_Restuarants_RestuarantBusinessID",
                         column: x => x.RestuarantBusinessID,
                         principalTable: "Restuarants",
                         principalColumn: "BusinessID",
@@ -70,48 +69,48 @@ namespace FoodSafety.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Violation",
+                name: "Violations",
                 columns: table => new
                 {
                     ViolationRecordId = table.Column<string>(nullable: false),
-                    BusinessID = table.Column<string>(nullable: true),
+                    InspectionSerialNum = table.Column<string>(nullable: true),
+                    InspectionSerialNum1 = table.Column<string>(nullable: true),
                     ViolationType = table.Column<int>(nullable: false),
                     ViolationDescription = table.Column<string>(nullable: true),
-                    ViolationPoints = table.Column<int>(nullable: false),
-                    RestuarantBusinessID = table.Column<string>(nullable: true)
+                    ViolationPoints = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Violation", x => x.ViolationRecordId);
+                    table.PrimaryKey("PK_Violations", x => x.ViolationRecordId);
                     table.ForeignKey(
-                        name: "FK_Violation_Restuarants_RestuarantBusinessID",
-                        column: x => x.RestuarantBusinessID,
-                        principalTable: "Restuarants",
-                        principalColumn: "BusinessID",
+                        name: "FK_Violations_Inspections_InspectionSerialNum1",
+                        column: x => x.InspectionSerialNum1,
+                        principalTable: "Inspections",
+                        principalColumn: "InspectionSerialNum",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inspection_RestuarantBusinessID",
-                table: "Inspection",
+                name: "IX_Inspections_RestuarantBusinessID",
+                table: "Inspections",
                 column: "RestuarantBusinessID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Violation_RestuarantBusinessID",
-                table: "Violation",
-                column: "RestuarantBusinessID");
+                name: "IX_Violations_InspectionSerialNum1",
+                table: "Violations",
+                column: "InspectionSerialNum1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Inspection");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Violation");
+                name: "Violations");
+
+            migrationBuilder.DropTable(
+                name: "Inspections");
 
             migrationBuilder.DropTable(
                 name: "Restuarants");

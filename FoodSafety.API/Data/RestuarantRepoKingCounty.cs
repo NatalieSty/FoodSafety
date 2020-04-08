@@ -68,5 +68,14 @@ namespace FoodSafety.API.Data
             }
         }
 
+        public Task<IEnumerable<Inspection>> GetInspectionsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Violation>> GetViolationsAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

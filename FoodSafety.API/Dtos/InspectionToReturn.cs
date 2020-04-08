@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using FoodSafety.API.Dtos;
+using FoodSafety.API.Models;
 
-namespace FoodSafety.API.Models
+namespace FoodSafety.API.Dtos
 {
-    public class Inspection
+    public class InspectionToReturn
     {
         public enum InspectionResultEnum
         {
@@ -29,7 +29,7 @@ namespace FoodSafety.API.Models
         [Key]
         public string InspectionSerialNum { get; set; }
         public int Grade { get; set; }
-        public ICollection<Violation> Violations { get; set; }
-        public Restuarant Restuarant { get; set; }
+        public ICollection<ViolationToReturn> Violations { get; set; }
+        public RestuarantForDetail Restuarant { get; set; }
     }
 }

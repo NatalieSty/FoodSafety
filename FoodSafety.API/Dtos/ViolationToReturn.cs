@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FoodSafety.API.Models
+namespace FoodSafety.API.Dtos
 {
-    public class Violation
+    public class ViolationToReturn
     {
         public enum ViolationTypeEnum
         {
@@ -11,14 +10,12 @@ namespace FoodSafety.API.Models
             Red
         }
         
-        public string InspectionSerialNum { get; set; }
-        public Inspection Inspection { get; set; }
+        
         public ViolationTypeEnum ViolationType { get; set; }
         public string ViolationDescription { get; set; }
         public int ViolationPoints { get; set; }
         [Key]
         public string ViolationRecordId { get; set; }
-
-        
+        public InspectionForDetail Inspection { get; set; }
     }
 }

@@ -19,9 +19,9 @@ namespace FoodSafety.API.Models
         public double Longtitude { get; set; }
         public double Latitude { get; set; }
         public int Grade { get; set; }
-        public Violation[] Violations { get; set; }
+        // public ICollection<Violation> Violations { get; set; }
 
-        public Inspection[] Inspections { get; set; }
+        public ICollection<Inspection> Inspections { get; set; }
 
       
     }
