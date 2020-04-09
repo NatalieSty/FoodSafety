@@ -77,5 +77,10 @@ namespace FoodSafety.API.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<User> GetUser(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

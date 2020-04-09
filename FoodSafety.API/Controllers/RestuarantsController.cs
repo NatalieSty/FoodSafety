@@ -19,8 +19,8 @@ namespace FoodSafety.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRestuarants()
         {
-            var restuarants = await _repo.GetRestuarantsAsync();
-            if (restuarants == null)
+            var restuarants = _repo.GetRestuarantsAsync();
+            if (await restuarants == null)
             {
                 return NotFound("Cannot get restuarants");
             }

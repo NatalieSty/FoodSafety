@@ -35,6 +35,7 @@ namespace FoodSafety.API
             services.AddCors();
             services.AddHttpClient();
             services.AddScoped<IRestuarantRepository, RestuarantRepo>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -14,8 +14,12 @@ namespace FoodSafety.API.Helpers
             CreateMap<RestuarantDeserializer, Violation>();
             CreateMap<Restuarant, RestuarantForDetail>();
             CreateMap<Inspection, InspectionToReturn>();
+          
             CreateMap<Violation, ViolationToReturn>();
             CreateMap<Inspection,InspectionForDetail>();
+
+            CreateMap<UsersForCreation, User>();
+            CreateMap<User, UsersForReturn>();
         }
         
     }

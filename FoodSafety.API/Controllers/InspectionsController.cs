@@ -24,7 +24,7 @@ namespace FoodSafety.API.Controllers
         public async Task<IActionResult> GetInspections()
         {
             var inspections = await _repo.GetInspectionsAsync();
-            if (inspections == null)
+            if ( inspections == null)
             {
                 return NotFound("Cannot get inspections");
             }

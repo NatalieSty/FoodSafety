@@ -22,12 +22,16 @@ namespace FoodSafety.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ViolationToReturn>> GetViolationsAsync() 
+        public async Task<IActionResult> GetViolationsAsync() 
         {
             var violations = await this.repo.GetViolationsAsync();
-
+            if( violations == null)
+            {
+                return NotFound("Cannot get Violations");
+            }
+                
             var violationsToReturn = this.mapper.Map<IEnumerable<ViolationToReturn>>(violations);
-            return violationsToReturn;
+            return Ok(violationsToReturn);
         }
     }
 }

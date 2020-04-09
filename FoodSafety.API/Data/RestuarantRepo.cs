@@ -42,5 +42,10 @@ namespace FoodSafety.API.Data
         {
             return await _context.Violations.Include(i => i.Inspection).ToListAsync();
         }
+
+        public async Task<User> GetUser(int id)
+        {
+            return await _context.Users.Include(u => u.Favourites).FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

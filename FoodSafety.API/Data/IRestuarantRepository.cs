@@ -10,5 +10,6 @@ namespace FoodSafety.API.Data
       Task<IEnumerable<Restuarant>> GetRestuarantsAsync();
       Task<IEnumerable<Inspection>> GetInspectionsAsync();
       Task<IEnumerable<Violation>> GetViolationsAsync();
+      Task<User> GetUser(int id);
     }
 }

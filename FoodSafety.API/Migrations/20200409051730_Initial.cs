@@ -36,7 +36,10 @@ namespace FoodSafety.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: true)
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
+                    ZipCode = table.Column<int>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    LastActive = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,12 +72,35 @@ namespace FoodSafety.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Favourites",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    BusinessId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favourites", x => new { x.UserId, x.BusinessId });
+                    table.ForeignKey(
+                        name: "FK_Favourites_Restuarants_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Restuarants",
+                        principalColumn: "BusinessID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favourites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Violations",
                 columns: table => new
                 {
                     ViolationRecordId = table.Column<string>(nullable: false),
                     InspectionSerialNum = table.Column<string>(nullable: true),
-                    InspectionSerialNum1 = table.Column<string>(nullable: true),
                     ViolationType = table.Column<int>(nullable: false),
                     ViolationDescription = table.Column<string>(nullable: true),
                     ViolationPoints = table.Column<int>(nullable: false)
@@ -83,12 +109,17 @@ namespace FoodSafety.API.Migrations
                 {
                     table.PrimaryKey("PK_Violations", x => x.ViolationRecordId);
                     table.ForeignKey(
-                        name: "FK_Violations_Inspections_InspectionSerialNum1",
-                        column: x => x.InspectionSerialNum1,
+                        name: "FK_Violations_Inspections_InspectionSerialNum",
+                        column: x => x.InspectionSerialNum,
                         principalTable: "Inspections",
                         principalColumn: "InspectionSerialNum",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favourites_BusinessId",
+                table: "Favourites",
+                column: "BusinessId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inspections_RestuarantBusinessID",
@@ -96,18 +127,21 @@ namespace FoodSafety.API.Migrations
                 column: "RestuarantBusinessID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Violations_InspectionSerialNum1",
+                name: "IX_Violations_InspectionSerialNum",
                 table: "Violations",
-                column: "InspectionSerialNum1");
+                column: "InspectionSerialNum");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Favourites");
 
             migrationBuilder.DropTable(
                 name: "Violations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Inspections");
