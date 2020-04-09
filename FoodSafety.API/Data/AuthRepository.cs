@@ -14,9 +14,26 @@ namespace FoodSafety.API.Data
         {
             _context = context;
         }
-        public Task<User> Login(string username, string password)
+        public async Task<User> Login(string username, string password)
         {
-            throw new System.NotImplementedException();
+            
+            var user = await _context.Users.Include(x => x.Favourites).FirstOrDefaultAsync(x => x.Username == username);
+            if (user == null)
+                return null;
+
+            var hmac = new System.Security.Cryptography.HMACSHA512(user.PasswordSalt);
+            
+            var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+            for(int i = 0; i < passwordHash.Length ; i++)
+            {
+                if(passwordHash[i] != user.PasswordHash[i])
+                {
+                    return null;
+                }
+            }
+            
+            return user;
         }
 
         public async Task<User> Register(User user, string password)

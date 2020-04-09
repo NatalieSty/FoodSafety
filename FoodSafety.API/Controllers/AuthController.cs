@@ -3,7 +3,14 @@ using AutoMapper;
 using FoodSafety.API.Data;
 using FoodSafety.API.Dtos;
 using FoodSafety.API.Models;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System;
 
 namespace FoodSafety.API.Controllers
 {
@@ -13,11 +20,13 @@ namespace FoodSafety.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public AuthController(IAuthRepository repo, IMapper mapper)
+        public AuthController(IAuthRepository repo, IMapper mapper, IConfiguration config)
         {
             _repo = repo;
             _mapper = mapper;
+            _config = config;
         }
 
         [HttpPost("register")]
@@ -42,11 +51,42 @@ namespace FoodSafety.API.Controllers
             return BadRequest("User registration failed");
         }
 
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login(string username, string password)
-        // {
-        //     _repo.Login();
-        // }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLogin userForLogin)
+        {
+
+
+            var user = await _repo.Login(userForLogin.Username.ToLower(), userForLogin.Password);
+            if ( user == null)
+            {
+                return Unauthorized("Fail to login");
+            }
+            // build token to return
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescription);
+
+            var userToReturn = _mapper.Map<UsersForReturn>(user);
+
+            return Ok(new {
+                token = tokenHandler.WriteToken(token),
+                userToReturn
+            });
+        }
 
     }
 }
