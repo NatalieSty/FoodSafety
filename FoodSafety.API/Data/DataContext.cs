@@ -13,5 +13,23 @@ namespace FoodSafety.API.Data
         public DbSet<Restuarant> Restuarants { get; set; }
         public DbSet<Violation> Violations { get; set; }
         public DbSet<Inspection> Inspections { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Favourites>()
+            .HasKey(t => new { t.UserId, t.BusinessId });
+
+        modelBuilder.Entity<Favourites>()
+            .HasOne(pt => pt.User)
+            .WithMany(p => p.Favourites)
+            .HasForeignKey(pt => pt.UserId);
+
+        modelBuilder.Entity<Favourites>()
+            .HasOne(pt => pt.Restuarant)
+            .WithMany(t => t.Likers)
+            .HasForeignKey(pt => pt.BusinessId);
     }
+        
+    }
+
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace FoodSafety.API.Models
 {
@@ -11,5 +12,6 @@ namespace FoodSafety.API.Models
         public int ZipCode { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
+        public ICollection<Favourites> Favourites { get; set; }
     }
 }

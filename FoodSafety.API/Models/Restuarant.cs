@@ -23,6 +23,7 @@ namespace FoodSafety.API.Models
 
         public ICollection<Inspection> Inspections { get; set; }
 
+        public ICollection<Favourites> Likers { get; set; }
       
     }
 }

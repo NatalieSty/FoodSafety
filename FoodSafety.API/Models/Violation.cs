@@ -11,11 +11,12 @@ namespace FoodSafety.API.Models
             Red
         }
         
-        public string InspectionSerialNum { get; set; }
+        // public string InspectionSerialNum { get; set; }
         public Inspection Inspection { get; set; }
         public ViolationTypeEnum ViolationType { get; set; }
         public string ViolationDescription { get; set; }
         public int ViolationPoints { get; set; }
+
         [Key]
         public string ViolationRecordId { get; set; }
 
