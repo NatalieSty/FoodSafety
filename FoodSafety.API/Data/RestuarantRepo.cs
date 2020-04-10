@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FoodSafety.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +26,12 @@ namespace FoodSafety.API.Data
 
         public async Task<IEnumerable<Restuarant>> GetRestuarantsAsync()
         {
-            return await _context.Restuarants.Include(i => i.Inspections).ToListAsync();
+            return await _context.Restuarants.ToListAsync();
         }
 
         public async Task<IEnumerable<Inspection>> GetInspectionsAsync()
         {
-            return await _context.Inspections.Include(i => i.Violations).Include(i => i.Restuarant).ToListAsync();
+            return await _context.Inspections.Include(i => i.Violations).ToListAsync();
         }
 
         public async Task<bool> SaveAll()
@@ -40,12 +41,32 @@ namespace FoodSafety.API.Data
 
         public async Task<IEnumerable<Violation>> GetViolationsAsync()
         {
-            return await _context.Violations.Include(i => i.Inspection).ToListAsync();
+            return await _context.Violations.ToListAsync();
         }
 
         public async Task<User> GetUser(int id)
         {
             return await _context.Users.Include(u => u.Favourites).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _context.Users.Include(u => u.Favourites).ToListAsync();
+        }
+
+        public async Task<Favourites> GetLike(int userId, string restuarantId)
+        {
+            return await _context.Favourites.FirstOrDefaultAsync(x => x.UserId == userId && x.BusinessId == restuarantId);
+        }
+
+        public async Task<Restuarant> GetRestuarant(string businessId)
+        {
+            return await _context.Restuarants.FirstOrDefaultAsync(r => r.BusinessID == businessId);
+        }
+
+        public async Task<IEnumerable<Favourites>> GetLikes(int userId)
+        {
+            return await _context.Favourites.Where(x => x.UserId == userId).Include(x => x.Restuarant).ToListAsync();
         }
     }
 }

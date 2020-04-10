@@ -11,6 +11,6 @@ namespace FoodSafety.API.Dtos
         public int ZipCode { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
-        public ICollection<Favourites> Favourites { get; set; }
+        public ICollection<LikeToReturn> Favourites { get; set; }
     }
 }

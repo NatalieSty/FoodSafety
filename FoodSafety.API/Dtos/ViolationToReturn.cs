@@ -16,6 +16,6 @@ namespace FoodSafety.API.Dtos
         public int ViolationPoints { get; set; }
         [Key]
         public string ViolationRecordId { get; set; }
-        public InspectionForDetail Inspection { get; set; }
+        //public InspectionForDetail Inspection { get; set; }
     }
 }

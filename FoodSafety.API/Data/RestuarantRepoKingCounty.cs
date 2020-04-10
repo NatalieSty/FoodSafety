@@ -82,5 +82,40 @@ namespace FoodSafety.API.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<User>> GetUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Favourites> GetLike(int userId, string restuarantId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add<T>(T entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Restuarant> GetRestuarant(string businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Favourites>> GetLikes(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

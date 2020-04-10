@@ -20,6 +20,9 @@ namespace FoodSafety.API.Helpers
 
             CreateMap<UsersForCreation, User>();
             CreateMap<User, UsersForReturn>();
+            CreateMap<UserForUpdate, User>();
+            CreateMap<Favourites, LikeToReturn>();
+            CreateMap<Favourites, LikeForUserList>();
         }
         
     }
