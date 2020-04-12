@@ -11,13 +11,23 @@ namespace FoodSafety.API.Models
         {
             Satisfactory,
             Complete,
-            Unsatisfactory
+            Unsatisfactory,
+            NotAccessible,
+            NotReadyForInspection,
+            NotApplicable,
+            BaselineData,
+            NeedsAssessment,
+            NotInCompliance,
+            NoLongerAtLocation,
+            Confirmed,
+            NotConfirmed
         }
         public enum InspectionTypeEnum
         {
             RoutineInspectionFieldReview,
             ConsultationEducationField,
-            Unsatisfactory
+            Unsatisfactory,
+            ReturnInspection
         }
         //public string BusinessID { get; set; }
         public DateTime InspectionDate { get; set; }

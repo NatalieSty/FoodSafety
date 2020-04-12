@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Restuarant } from '../models/restuarants';
 import { RestuarantService } from 'src/_services/restuarant.service';
+import { Route } from '@angular/compiler/src/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-restuarants',
@@ -11,8 +13,8 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
   @ViewChild('mapContainer', {static: false}) gmap: ElementRef;
   map: google.maps.Map;
 
-  lat = 40.73061;
-  lng = -73.935242;
+  lat = 47.608013;
+  lng = -122.335167;
 
   coordinates = new google.maps.LatLng(this.lat, this.lng);
 
@@ -26,39 +28,42 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
     map: this.map,
   });
 
-  markers = [
-    {
-      position: new google.maps.LatLng(40.73061, 73.935242),
-      map: this.map,
-      title: "Marker 1"
-    },
-    {
-      position: new google.maps.LatLng(32.06485, 34.763226),
-      map: this.map,
-      title: "Marker 2"
-    }
-  ];
-
+  markers = [];
+ 
   restuarants: Restuarant[];
 
-  constructor(private restuarantService: RestuarantService) { }
+  constructor(private restuarantService: RestuarantService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getRestuarants();
+
+    this.route.data.subscribe(data => {
+      this.restuarants = data['data'].result;
+      this.lat = this.restuarants[0].latitude;
+      this.lng = this.restuarants[0].longtitude;
+    });
+    
+    this.getMarkers();
   }
 
-  getRestuarants() {
-    this.restuarantService.getRestuarants().subscribe(res => {
-      this.restuarants = res;
+  getMarkers() {
+    this.restuarants.forEach(r => {
+      this.markers.push({
+        position: new google.maps.LatLng(r.latitude, r.longtitude),
+        map: this.map,
+        title: r.name,
+        grade: r.grade
+      });
     });
   }
+
+
 
   ngAfterViewInit() {
     this.mapInitializer();
   }
 
   mapInitializer() {
-    this.map = new google.maps.Map(this.gmap.nativeElement, 
+    this.map = new google.maps.Map(this.gmap.nativeElement,
     this.mapOptions);
 
     this.marker.addListener("click", () => {
@@ -67,13 +72,14 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
       });
       infoWindow.open(this.marker.getMap(), this.marker);
     });
-    
+
     this.marker.setMap(this.map);
 
     this.loadAllMarkers();
   }
 
   loadAllMarkers() {
+    console.log(this.markers);
     this.markers.forEach(markerInfo => {
       const marker = new google.maps.Marker({
         ...markerInfo
@@ -92,7 +98,7 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
 
     });
 
-    
+
   }
 
 

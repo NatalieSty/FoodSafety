@@ -18,7 +18,26 @@ namespace FoodSafety.API.Data
             [EnumMember(Value = "unsatisfactory")]
             Unsatisfactory,
             [EnumMember(Value = "incomplete")]
-            Incomplete
+            Incomplete,
+            [EnumMember(Value = "Not Accessible")]
+            NotAccessible,
+            [EnumMember(Value = "Not Ready For Inspection")]
+            NotReadyForInspection,
+            [EnumMember(Value = "Not Applicable")]
+            NotApplicable,
+            [EnumMember(Value = "Baseline Data")]
+            BaselineData,
+            [EnumMember(Value = "Needs Assessment")]
+            NeedsAssessment,
+            [EnumMember(Value = "Not In Compliance")]
+            NotInCompliance,
+            [EnumMember(Value = "No Longer At Location")]
+            NoLongerAtLocation,
+            [EnumMember(Value = "Confirmed")]
+
+            Confirmed,
+            [EnumMember(Value = "Not Confirmed")]
+            NotConfirmed
         }
         
         [JsonConverter(typeof(StringEnumConverter))]
@@ -27,7 +46,9 @@ namespace FoodSafety.API.Data
             [EnumMember(Value = "Routine Inspection/Field Review")]
             RoutineInspectionFieldReview,
             [EnumMember(Value = "Consultation/Education - Field")]
-            ConsultationEducationField
+            ConsultationEducationField,
+            [EnumMember(Value = "Return Inspection")]
+            ReturnInspection
         }
         [JsonProperty("business_id")]
         public string BusinessID { get; set; }
