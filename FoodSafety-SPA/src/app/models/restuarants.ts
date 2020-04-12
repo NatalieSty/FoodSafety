@@ -2,7 +2,7 @@ import { Violation } from './violation';
 import { Inspection } from './inspection';
 
 export class Restuarant{
-    businessId: string;
+    businessID: string;
     name: string;
     description: string;
     address: string;

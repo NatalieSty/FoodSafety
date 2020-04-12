@@ -51,7 +51,6 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
         position: new google.maps.LatLng(r.latitude, r.longtitude),
         map: this.map,
         title: r.name,
-        grade: r.grade
       });
     });
   }
@@ -79,7 +78,7 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
   }
 
   loadAllMarkers() {
-    console.log(this.markers);
+    
     this.markers.forEach(markerInfo => {
       const marker = new google.maps.Marker({
         ...markerInfo

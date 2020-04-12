@@ -6,4 +6,5 @@ import { RestuarantFavouritesComponent } from './restuarants/restuarant-favourit
 export const appRoutes: Routes = [
     { path: 'home', component: RestuarantsComponent, resolve: {data: RestaurantListResolver}},
     { path: 'favorites', component: RestuarantFavouritesComponent},
+    { path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];
