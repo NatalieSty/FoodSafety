@@ -41,7 +41,7 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
       this.lat = this.restuarants[0].latitude;
       this.lng = this.restuarants[0].longtitude;
     });
-    
+
     this.getMarkers();
   }
 

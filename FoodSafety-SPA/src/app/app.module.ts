@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthService } from 'src/_services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RegisterComponent } from './register/register.component';
+import { FavoriteListResolver } from './_resolver/favorite-list.resolver';
 
 
 export function tokenGetter(){
@@ -28,7 +28,6 @@ export function tokenGetter(){
       RestuarantsComponent,
       NavComponent,
       RestuarantFavouritesComponent,
-      RegisterComponent
    ],
    imports: [
       BrowserModule,
@@ -38,18 +37,20 @@ export function tokenGetter(){
       BsDropdownModule.forRoot(),
       AlertModule.forRoot(),
       RouterModule.forRoot(appRoutes),
-      JwtModule.forRoot(\nconfig
-   ],
-   blacklistedRoutes: [
-      'localhost
-   ]
-})
+      JwtModule.forRoot({
+         config: {
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+      })
       
    ],
    providers: [
       RestuarantService,
       RestaurantListResolver,
-      AuthService
+      AuthService,
+      FavoriteListResolver,
    ],
    bootstrap: [
       AppComponent

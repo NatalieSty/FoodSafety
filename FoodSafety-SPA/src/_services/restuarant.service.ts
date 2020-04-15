@@ -15,4 +15,8 @@ export class RestuarantService {
     getRestuarants(): Observable<Restuarant[]> {
         return this.http.get<Restuarant[]>(this.baseUrl + 'api/' + 'restuarants');
     }
+
+    getFavorites(userId) {
+        return this.http.get<Restuarant[]>(this.baseUrl + 'api/' + 'Favourites/' + userId);
+    }
 }

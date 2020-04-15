@@ -25,6 +25,7 @@ namespace FoodSafety.API.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetLikesForUser(int userId)
         {
+
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 

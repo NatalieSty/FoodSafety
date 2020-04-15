@@ -11,7 +11,6 @@ export class RestaurantListResolver implements Resolve<Restuarant> {
     constructor(private restuarantService: RestuarantService, private router: Router) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Restuarant> {
-    
         return this.restuarantService.getRestuarants().pipe(
             catchError(error => {
                 console.log('Problem retrieving data');
