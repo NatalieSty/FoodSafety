@@ -1,0 +1,17 @@
+<div class="continer mt-4">
+  <div class="row ml-5">
+    <div class="col-sm-7">
+      <div class="tab-panel">
+            <h1>Edit your profile</h1>
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+              <h4>Zip Code</h4>
+              <textarea name="zipCode" rows="1" class="form-control"
+              [(ngModel)]="user.zipCode"></textarea>
+            </form>
+            <div class="card-footer">
+              <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save Changes</button>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>

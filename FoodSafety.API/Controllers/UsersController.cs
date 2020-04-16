@@ -47,7 +47,7 @@ namespace FoodSafety.API.Controllers
             return Ok(userToReturn);
         }
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdate userForUpdate)
         {
             var userFromRepo = await _repo.GetUser(id);
@@ -59,7 +59,7 @@ namespace FoodSafety.API.Controllers
             _mapper.Map<UserForUpdate, User>(userForUpdate, userFromRepo);
             if (await _repo.SaveAll())
             {
-                return Ok("Updated User");
+                return Ok();
             }
             return BadRequest("Failed to update user");
         }

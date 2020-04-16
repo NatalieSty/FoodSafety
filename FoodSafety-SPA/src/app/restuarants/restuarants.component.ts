@@ -3,6 +3,8 @@ import { Restuarant } from '../models/restuarants';
 import { RestuarantService } from 'src/_services/restuarant.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/_services/auth.service';
+import { AlertifyService } from 'src/_services/alertify.service';
 
 @Component({
   selector: 'app-restuarants',
@@ -32,7 +34,8 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
  
   restuarants: Restuarant[];
 
-  constructor(private restuarantService: RestuarantService, private route: ActivatedRoute) { }
+  constructor(private restuarantService: RestuarantService, private route: ActivatedRoute, 
+              private authService: AuthService, private alert: AlertifyService) { }
 
   ngOnInit() {
 
@@ -43,6 +46,17 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
     });
 
     this.getMarkers();
+  }
+
+  addFavorite(id) {
+    this.alert.confirm("Are you sure you want to add this restaurant to favorite?", () => {
+      this.restuarantService.addFavorite(id, this.authService.decodedToken.nameid).subscribe( () => {
+        this.alert.success('Added new favorite');
+      }, error => {
+        this.alert.error(error.error);
+      });
+    })
+
   }
 
   getMarkers() {

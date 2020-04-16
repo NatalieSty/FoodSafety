@@ -30,6 +30,7 @@
       <div id="restuarant-list" class="mt-0">
         <ul class="list-group list-group-flush" *ngFor="let r of restuarants">
           <li class="list-group-item">
+            <button class="fa fa-plus" (click)="addFavorite(r.businessID)"></button>
             <p>{{r.businessID}}</p>
             <p>{{r.name}}</p>
             

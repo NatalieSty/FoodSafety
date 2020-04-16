@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/_services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../models/User';
+import { AlertifyService } from 'src/_services/alertify.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   model: any = {};
   user: User;
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService, private router: Router, private alert: AlertifyService) {
 
   }
 
@@ -22,9 +23,9 @@ export class NavComponent implements OnInit {
 
   login() {
     this.authService.login(this.model).subscribe(next => {
-      console.log('loggedin');
+      this.alert.success("Logged In")
     }, error => {
-      console.log('error logging in');
+      this.alert.error("Error logging in")
     }, () => {
       this.router.navigate(['/home']);
     })

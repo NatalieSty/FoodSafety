@@ -15,8 +15,12 @@ import { RestaurantListResolver } from './_resolver/restaurant-list.resolver';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthService } from 'src/_services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FavoriteListResolver } from './_resolver/favorite-list.resolver';
+import { CommonModule } from '@angular/common';
+import { RegisterComponent } from './register/register.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { UserEditResolver } from './_resolver/user-edit.resolver';
 
 
 export function tokenGetter(){
@@ -28,10 +32,14 @@ export function tokenGetter(){
       RestuarantsComponent,
       NavComponent,
       RestuarantFavouritesComponent,
+      RegisterComponent,
+      UserEditComponent,
    ],
    imports: [
       BrowserModule,
       FormsModule,
+      ReactiveFormsModule,
+      CommonModule,
       HttpClientModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
@@ -44,13 +52,13 @@ export function tokenGetter(){
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       })
-      
    ],
    providers: [
       RestuarantService,
       RestaurantListResolver,
       AuthService,
       FavoriteListResolver,
+      UserEditResolver,
    ],
    bootstrap: [
       AppComponent
