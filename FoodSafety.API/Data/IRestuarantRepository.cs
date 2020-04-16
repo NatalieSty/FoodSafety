@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FoodSafety.API.Helpers;
 using FoodSafety.API.Models;
 
 namespace FoodSafety.API.Data
@@ -10,7 +11,7 @@ namespace FoodSafety.API.Data
       void Add<T>(T entity) where T: class;
 
       void Delete<T>(T entity) where T: class;
-      Task<IEnumerable<Restuarant>> GetRestuarantsAsync();
+      Task<PagedList<Restuarant>> GetRestuarantsAsync(ListParams listParams);
       Task<IEnumerable<Inspection>> GetInspectionsAsync();
       Task<IEnumerable<Violation>> GetViolationsAsync();
       Task<Restuarant> GetRestuarant(string businessId);

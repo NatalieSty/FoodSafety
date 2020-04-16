@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FoodSafety.API.Helpers;
 using FoodSafety.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +25,11 @@ namespace FoodSafety.API.Data
             _context.Remove(entity);
         }
 
-        public async Task<IEnumerable<Restuarant>> GetRestuarantsAsync()
+        public async Task<PagedList<Restuarant>> GetRestuarantsAsync(ListParams listParams)
         {
-            return await _context.Restuarants.ToListAsync();
+            var list =  _context.Restuarants.AsQueryable();
+
+            return await PagedList<Restuarant>.CreateAsync(list, listParams.PageNumber, listParams.PageSize);
         }
 
         public async Task<IEnumerable<Inspection>> GetInspectionsAsync()

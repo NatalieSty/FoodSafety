@@ -5,6 +5,7 @@ import { Route } from '@angular/compiler/src/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/_services/auth.service';
 import { AlertifyService } from 'src/_services/alertify.service';
+import { Pagination, PaginatedResult } from '../models/pagination';
 
 @Component({
   selector: 'app-restuarants',
@@ -33,6 +34,8 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
   markers = [];
  
   restuarants: Restuarant[];
+  listParams: any = {};
+  pagination: Pagination;
 
   constructor(private restuarantService: RestuarantService, private route: ActivatedRoute, 
               private authService: AuthService, private alert: AlertifyService) { }
@@ -41,11 +44,28 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
 
     this.route.data.subscribe(data => {
       this.restuarants = data['data'].result;
+      this.pagination = data['data'].pagination;
       this.lat = this.restuarants[0].latitude;
       this.lng = this.restuarants[0].longtitude;
     });
 
     this.getMarkers();
+  }
+
+  pageChanged(event: any): void{
+    this.pagination.currentPage = event.page;
+    this.loadRestuarants();
+  }
+
+  loadRestuarants() {
+    this.restuarantService.getRestuarants(this.pagination.currentPage, this.pagination.itemsPerPage)
+      .subscribe(
+        (res: PaginatedResult<Restuarant[]>) => {
+          this.restuarants = res.result;
+          this.pagination = res.pagination;
+        }, error => {
+          this.alert.error(error);
+        });
   }
 
   addFavorite(id) {

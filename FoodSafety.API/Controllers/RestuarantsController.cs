@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FoodSafety.API.Data;
+using FoodSafety.API.Helpers;
 using FoodSafety.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,13 +20,14 @@ namespace FoodSafety.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRestuarants()
+        public async Task<IActionResult> GetRestuarants([FromQuery] ListParams listParams)
         {
-            var restuarants = _repo.GetRestuarantsAsync();
-            if (await restuarants == null)
+            var restuarants = await  _repo.GetRestuarantsAsync(listParams);
+            if (restuarants == null)
             {
                 return NotFound("Cannot get restuarants");
             }
+            Response.AddPagination(restuarants.CurrentPage, restuarants.PageSize, restuarants.TotalCount, restuarants.TotalPages);
             return Ok(restuarants);
 
         }

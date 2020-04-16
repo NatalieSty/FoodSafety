@@ -13,7 +13,6 @@
               <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
                   role="menu" aria-labelledby="button-basic">
                 <li role="menuitem"><a class="dropdown-item" href="#">Restuarant</a></li>
-                <li role="menuitem"><a class="dropdown-item" href="#">City</a></li>
                 <li role="menuitem"><a class="dropdown-item" href="#">Zip Code</a></li>
                 <!-- <li class="divider dropdown-divider"></li>
                 <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a> -->
@@ -21,7 +20,7 @@
               </ul>
             </div>
         
-            <input class="form-control form-control-sm ml-3 mr-3 w-75" type="text" placeholder="Search by Restaurant, City, or Zip code" aria-label="Search">
+            <input class="form-control form-control-sm ml-3 mr-3 w-75" type="text" placeholder="Search by Restaurant or Zip code" aria-label="Search">
             <button class="btn btn-sm fa fa-search btn-outline-primary"></button>
           </form>
         
@@ -42,10 +41,16 @@
           </li>
         </ul>
       </div>
-      <span>
-      <button class="btn btn-sm  btn-outline-primary">Previous</button>
-      <button class="btn btn-sm  btn-outline-primary">Next</button>
-      </span>
+
+      <div class="d-flex justify-content-center">
+        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+ 
+</pagination>
+      </div>
     </div>
 
       

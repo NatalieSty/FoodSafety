@@ -117,5 +117,10 @@ namespace FoodSafety.API.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<PagedList<Restuarant>> GetRestuarantsAsync(ListParams listParams)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
