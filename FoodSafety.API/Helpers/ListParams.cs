@@ -11,7 +11,7 @@ namespace FoodSafety.API.Helpers
             set { pageSize = (value > MaxPageSize) ? MaxPageSize: value ; }
         }
 
-        // public string Name { get; set; }
-        // public int ZipCode { get; set; }
+        public string Name { get; set; }
+        public string ZipCode { get; set; }
     }
 }

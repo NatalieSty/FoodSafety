@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +29,16 @@ namespace FoodSafety.API.Data
         public async Task<PagedList<Restuarant>> GetRestuarantsAsync(ListParams listParams)
         {
             var list =  _context.Restuarants.AsQueryable();
+
+            if(listParams.Name != null)
+            {
+                list = list.Where(r => r.Name.Contains(listParams.Name.ToUpper()));
+            }
+            var zipCode = 0;
+            if(listParams.ZipCode != null && int.TryParse(listParams.ZipCode, out zipCode))
+            {
+                list = list.Where(r => r.ZipCode == zipCode);
+            }
 
             return await PagedList<Restuarant>.CreateAsync(list, listParams.PageNumber, listParams.PageSize);
         }

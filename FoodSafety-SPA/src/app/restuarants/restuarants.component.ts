@@ -31,6 +31,11 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
     map: this.map,
   });
 
+  nameParams: string;
+  zipParams: string;
+
+  searchParam: string;
+
   markers = [];
  
   restuarants: Restuarant[];
@@ -50,22 +55,39 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
     });
 
     this.getMarkers();
+    this.searchParam = 'name';
+    this.nameParams = '';
+    this.zipParams = '';
   }
 
-  pageChanged(event: any): void{
+  pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
+    console.log('changed');
     this.loadRestuarants();
+    this.clearOverlays();
+    console.log(this.markers);
+    this.getMarkers();
+    console.log(this.markers);
+    //this.loadAllMarkers(this.map);
   }
 
   loadRestuarants() {
-    this.restuarantService.getRestuarants(this.pagination.currentPage, this.pagination.itemsPerPage)
+    this.restuarantService.getRestuarants(this.pagination.currentPage, this.pagination.itemsPerPage, this.nameParams, this.zipParams)
       .subscribe(
         (res: PaginatedResult<Restuarant[]>) => {
           this.restuarants = res.result;
           this.pagination = res.pagination;
+
         }, error => {
           this.alert.error(error);
         });
+    this.nameParams = '';
+    this.zipParams = '';
+  }
+
+  clearOverlays() {
+    this.loadAllMarkers(null);
+    this.markers = [];
   }
 
   addFavorite(id) {
@@ -95,6 +117,8 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
     this.mapInitializer();
   }
 
+
+
   mapInitializer() {
     this.map = new google.maps.Map(this.gmap.nativeElement,
     this.mapOptions);
@@ -108,11 +132,18 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
 
     this.marker.setMap(this.map);
 
-    this.loadAllMarkers();
+    this.loadAllMarkers(this.map);
   }
 
-  loadAllMarkers() {
-    
+  setSearchParam(param) {
+    if (param === 'name'){
+      this.searchParam = 'name';
+    } else {
+      this.searchParam = 'zip';
+    }
+  }
+
+  loadAllMarkers(map) {
     this.markers.forEach(markerInfo => {
       const marker = new google.maps.Marker({
         ...markerInfo
@@ -127,7 +158,7 @@ export class RestuarantsComponent implements OnInit, AfterViewInit {
 
       });
 
-      marker.setMap(this.map);
+      marker.setMap(map);
 
     });
 

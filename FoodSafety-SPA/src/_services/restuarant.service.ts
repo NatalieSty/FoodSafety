@@ -14,13 +14,22 @@ export class RestuarantService {
 
     constructor(private http: HttpClient) {}
 
-    getRestuarants(page?, itemsPerPage?): Observable<PaginatedResult<Restuarant[]>> {
+    getRestuarants(page?, itemsPerPage?, nameParams?, zipParams?): Observable<PaginatedResult<Restuarant[]>> {
         const paginatedResult: PaginatedResult<Restuarant[]> = new PaginatedResult<Restuarant[]>();
         let params = new HttpParams();
 
         if (page != null && itemsPerPage != null) {
             params = params.append('pageNumber', page);
             params = params.append('pageSize', itemsPerPage);
+        }
+
+        if (nameParams !== null)
+        {
+            params = params.append('name', nameParams);
+        }
+
+        if (zipParams !== null){
+            params = params.append('zipCode', zipParams);
         }
 
         return this.http.get<Restuarant[]>(this.baseUrl + 'api/' + 'restuarants', { observe: 'response', params})

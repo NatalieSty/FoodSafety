@@ -22,6 +22,7 @@ namespace FoodSafety.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRestuarants([FromQuery] ListParams listParams)
         {
+            
             var restuarants = await  _repo.GetRestuarantsAsync(listParams);
             if (restuarants == null)
             {

@@ -10,11 +10,13 @@ import { catchError } from 'rxjs/operators';
 export class RestaurantListResolver implements Resolve<Restuarant> {
     pageNumber = 1;
     pageSize = 10;
+    nameParams = null;
+    zipParams = null;
     
     constructor(private restuarantService: RestuarantService, private router: Router) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Restuarant> {
-        return this.restuarantService.getRestuarants(this.pageNumber, this.pageSize).pipe(
+        return this.restuarantService.getRestuarants(this.pageNumber, this.pageSize, this.nameParams, this.zipParams).pipe(
             catchError(error => {
                 console.log('Problem retrieving data');
                 this.router.navigate(['/home']);
